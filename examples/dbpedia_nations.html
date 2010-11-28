@@ -22,9 +22,9 @@
         });
       }
 
-      var endpoint = "http://dbpedia.org/sparql";
-
       $(function () {
+
+        var endpoint = $('#endpoint').val();
 
         $('#execute').click(function () {
           var query = $('#sparql').val();
@@ -38,22 +38,53 @@
 
     </script>
     <style>
-      #query {
-        float: left;
+      article, aside, figure, footer, header, hgroup, menu, nav, section {
+        display: block;
       }
-      #results {
+
+      label {
+        font-weight: bold;
+      }
+
+      #query-wrapper > h2, #results-wrapper > h2 {
+        margin: 0.3em 0 0.6em;
+      }
+
+      #query-wrapper, #results-wrapper {
+        padding-top: 0.1em;
+      }
+
+      #query-wrapper {
+        float: left;
+        width: 36em;
+      }
+
+      #results-wrapper {
+        margin-left: 36em;
+      }
+
+      #sparql, #results {
         border: 1px solid #ccc;
-        font-family: monospace;
+        font-family: courier;
         font-size: 9pt;
-        margin-left: 49em;
         white-space: pre;
       }
+
     </style>
   </head>
   <body>
-    <h1>SparqlTree : Examples : DBPedia : Nations Census</h1>
-    <div id="query">
-      <textarea id="sparql" cols="72" rows="28">
+    <h1>SparqlTree : Examples : DBPedia : Populations</h1>
+    <section id="query-wrapper">
+      <h2>Query</h2>
+      <div id="query">
+        <div>
+          <label for="endpoint">Endpoint:</label>
+          <input id="endpoint" size="42" value="http://dbpedia.org/sparql" />
+        </div>
+        <div>
+          <label for="sparql">SPARQL:</label>
+        </div>
+        <textarea id="sparql" cols="72" rows="28">
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX dbpprop: <http://dbpedia.org/property/>
 PREFIX dbpowl: <http://dbpedia.org/ontology/>
@@ -78,12 +109,16 @@ SELECT * {
 
 }
 #LIMIT 1000
-      </textarea>
-      <div>
-        <button id="execute">Run query</button>
+        </textarea>
+        <div>
+          <button id="execute">Run query</button>
+        </div>
       </div>
-    </div>
-    <div id="results">
-    </div>
+    </section>
+    <section id="results-wrapper">
+      <h2>Results</h2>
+      <div id="results">
+      </div>
+    </section>
   </body>
 </html>
