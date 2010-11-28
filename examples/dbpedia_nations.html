@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>SparqlTree : Examples : DBPedia : Populations</title>
+    <meta charset="utf-8" />
+    <!--[if IE lt 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="../src/oort/sparqltree.js"></script>
+    <script>
+
+      function sparql(endpoint, query, callback) {
+        $.ajax({
+          type: "POST",
+          url: endpoint,
+          beforeSend: function(req) {
+            req.setRequestHeader("Accept", "application/sparql-results+json");
+          },
+          data: {query: query},
+          success: callback,
+        });
+      }
+
+      var endpoint = "http://dbpedia.org/sparql";
+
+      $(function () {
+
+        $('#execute').click(function () {
+          var query = $('#sparql').val();
+          sparql(endpoint, query, function (data, statusText, req) {
+            var tree = SparqlTree.buildTree(data);
+            $('#results').text(JSON.stringify(tree, null, 2));
+          });
+        });
+
+      });
+
+    </script>
+    <style>
+      #query {
+        float: left;
+      }
+      #results {
+        border: 1px solid #ccc;
+        font-family: monospace;
+        font-size: 9pt;
+        margin-left: 49em;
+        white-space: pre;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SparqlTree : Examples : DBPedia : Nations Census</h1>
+    <div id="query">
+      <textarea id="sparql" cols="72" rows="28">
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+PREFIX dbpowl: <http://dbpedia.org/ontology/>
+
+SELECT * {
+
+  ?country a dbpowl:Country;
+    rdfs:label ?country__1_label .
+
+  OPTIONAL {
+    ?country
+      dbpprop:populationCensus ?country__1_populationCensus;
+      dbpprop:populationCensusYear ?country__1_populationCensusYear .
+  }
+  OPTIONAL {
+    ?country
+      dbpprop:populationEstimate ?country__1_populationEstimate;
+      dbpprop:populationEstimateYear ?country__1_populationEstimateYear .
+  }
+
+  FILTER(LANG(?country__1_label) = 'en')
+
+}
+#LIMIT 1000
+      </textarea>
+      <div>
+        <button id="execute">Run query</button>
+      </div>
+    </div>
+    <div id="results">
+    </div>
+  </body>
+</html>
