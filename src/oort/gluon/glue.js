@@ -44,6 +44,7 @@ var Glue = (function () {
         this.r = Reverse(this);
     };
     GlueNode.prototype = {
+
         _deref: function (context) {
             for (key in this) {
                 var ref = this[key].$ref;
@@ -57,7 +58,18 @@ var Glue = (function () {
                     this[key] = referenced;
                 }
             }
+        },
+
+        /** Creates a non-cyclic Gluon object containing all properties and
+         * objects of the current object. For all objects that are refererences
+         * (non-literals), each unnamed or singularly referenced bnode will be
+         * contained, and also any reference being an URI with a fragment
+         * sharing the same path before the frament. No incoming relations will be
+         * included unless specified.
+         */
+        gluonize: function (/*optional*/ skelWrapper, /*optional*/ incoming) {
         }
+
     };
 
     function Reverse() {

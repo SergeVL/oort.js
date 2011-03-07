@@ -1,4 +1,6 @@
 var sys = require('sys');
+require("../../src/oort/gluon/gluon.js");
+require("../../src/oort/gluon/query.js");
 
 var queryGluon = {
 
@@ -7,11 +9,10 @@ var queryGluon = {
       dbpprop: "http://dbpedia.org/property/",
       dbpowl: "http://dbpedia.org/ontology/"
     },
-    import: ["rdf", "rdfs"], // builtins for "a", "label" etc.
     default: "dbpprop",
     define: {
       Country: {from: "dbpowl"},
-      label: {localized: true}, // inherit from import and specialize
+      label: {from: "rdfs", localized: true} // "rdfs" is a default
     }
   },
 
@@ -29,5 +30,6 @@ var queryGluon = {
 
 };
 
-sys.print(JSON.stringify(queryGluon, null, 2));
+var query = Oort.Gluon.toSPARQL(queryGluon);
+sys.print(query);
 
