@@ -132,6 +132,8 @@ SELECT * {
   ?country a dbpowl:Country;
     rdfs:label ?country__1_label .
 
+  FILTER(LANG(?country__1_label) = 'en')
+
   OPTIONAL {
     ?country
       dbpprop:populationCensus ?country__1_populationCensus;
@@ -143,10 +145,8 @@ SELECT * {
       dbpprop:populationEstimateYear ?country__1_populationEstimateYear .
   }
 
-  FILTER(LANG(?country__1_label) = 'en')
-
 }
-#LIMIT 1000
+LIMIT 1000
         </textarea>
         <p>
           <button id="execute">Run query</button>
