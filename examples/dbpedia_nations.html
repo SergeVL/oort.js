@@ -10,17 +10,17 @@
     <script src="../src/oort/sparqltree.js"></script>
     <script>
 
-      function sparql(endpoint, query, callback) {
+      function sparql(endpoint, query, callback, error) {
         $.ajax({
-          type: "POST",
-          url: endpoint,
+          type: "GET", url: endpoint,
           beforeSend: function(req) {
             req.setRequestHeader("Accept", "application/sparql-results+json");
           },
-          data: {query: query},
-          success: callback,
+          data: {query: query}, dataType: 'json',
+          success: callback, error: error
         });
       }
+
 
       var dur = 1000;
       function fadeOut() {
@@ -47,6 +47,8 @@
             var results = stopLoad($('#results'));
             var tree = SparqlTree.buildTree(data);
             results.text(JSON.stringify(tree, null, 2));
+          }, function (xhr) {
+            alert(xhr.responseText);
           });
         });
 
@@ -146,7 +148,7 @@ SELECT * {
   }
 
 }
-LIMIT 1000
+LIMIT 100
         </textarea>
         <p>
           <button id="execute">Run query</button>
