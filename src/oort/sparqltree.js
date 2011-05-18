@@ -95,7 +95,7 @@ SparqlTree = new function (self) { var self = this;
       var keyBinding = it[varName];
       if (keyBinding === undefined)
         continue;
-      var key = keyBinding.value;
+      var key = self.makeBindingKey(keyBinding);
       if (grouped[key]) {
         grouped[key].groupedBindings.push(it);
       } else {
@@ -103,6 +103,11 @@ SparqlTree = new function (self) { var self = this;
       }
     }
     return grouped;
+  };
+
+  self.makeBindingKey = function (binding) {
+    return binding.type +":"+ binding.value +":" +
+           binding['xml:lang'] +":"+ binding.datatype;
   };
 
   self.makeNode = function (binding) {
